@@ -13,8 +13,12 @@ class VoteTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testSave()
     {
-        $this->assertTrue(true);
+        $user = $user = factory(\App\User::class)->make();
+        $user->save();
+        $vote = factory(\App\Vote::class)->make();
+        $vote->user()->associate($user);
+        $this->assertTrue($vote->save());
     }
 }
