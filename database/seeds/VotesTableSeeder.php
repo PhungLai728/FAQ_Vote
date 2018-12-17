@@ -12,13 +12,13 @@ class VotesTableSeeder extends Seeder
     public function run()
     {
         $users = App\User::all();
-        for ($i = 1; $i <= 1; $i++) {
-            $users->each(function ($user) {
-                $vote = factory(\App\Vote::class)->make();
-                $vote->user()->associate($user);
-                $vote->save();
+//        for ($i = 1; $i <= 2; $i++) {
+        $users->each(function ($user) {
+            $vote = factory(\App\Vote::class)->make();
+            $vote->user()->associate($user);
+            $vote->save();
 
-            });
-        }
+        });
+//        }
     }
 }

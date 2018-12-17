@@ -28,9 +28,16 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header"><a class="btn btn-primary float-left"
-                                                href="{{ route('answers.create', ['question_id'=> $question->id])}}">
+                                                              href="{{ route('answers.create', ['question_id'=> $question->id])}}">
                             Answer Question
-                        </a></div>
+                        </a>
+
+                        <a class="btn btn-success float-left ml-2"
+                           href="{{ route('answers.create', ['question_id'=> $question->id])}}">
+                            See all votes
+                        </a>
+
+                    </div>
 
                     <div class="card-body">
                         @forelse($question->answers as $answer)
@@ -38,13 +45,24 @@
                                 <div class="card-body">{{$answer->body}}</div>
                                 <div class="card-footer">
 
-                                    <a class="btn btn-primary float-right"
+                                    <a class="btn btn-dark float-right"
+                                       href="{{ route('votes.show', ['question_id'=> $question->id,'answer_id' => $answer->id]) }}">
+                                        Down-Vote
+                                    </a>
+
+                                    <a class="btn btn-success float-right mr-2"
+                                       href="{{ route('votes.show', ['question_id'=> $question->id,'answer_id' => $answer->id]) }}">
+                                        Up-Vote
+                                    </a>
+
+                                    <a class="btn btn-primary float-right mr-2"
                                        href="{{ route('answers.show', ['question_id'=> $question->id,'answer_id' => $answer->id]) }}">
                                         View
                                     </a>
 
                                 </div>
                             </div>
+
                         @empty
                             <div class="card">
 
