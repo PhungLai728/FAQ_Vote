@@ -18,12 +18,10 @@ class CreateVotesTable extends Migration
             $table->integer('user_id');
             $table->integer('voteable_id');
             $table->string('voteable_type');
-            $table->enum('type', ['up', 'down']);
 //            $table->string('status');
-//            $table->softDeletes();
+            $table->enum('type', ['up', 'down']);//values of vote
             $table->timestamps();
-//            $table->unique(['user_id', 'votable_id', 'votable_type']);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');//->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }

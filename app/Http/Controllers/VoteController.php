@@ -30,9 +30,11 @@ class VoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateVoteRequest $request, Answer $answer){
+
+    public function create(CreateVoteRequest $request, Answer $answer)
+    {
         $this->authorize('vote', $answer);
-        $answer->voteFromUser($request->user())->delete();
+        $answer->getVote($request->user())->delete();
         $answer->votes()->create([
             'type' => $request->type,
             'user_id' => $request->user()->id
@@ -40,9 +42,10 @@ class VoteController extends Controller
         return response()->json(null, 200);
     }
 
-    public function remove(Request $request, Answer $answer){
+    public function remove(Request $request, Answer $answer)
+    {
         $this->authorize('vote', $answer);
-        $answer->voteFromUser($request->user())->delete();
+        $answer->getVote($request->user())->delete();
         return response()->json(null, 200);
     }
 
@@ -57,35 +60,16 @@ class VoteController extends Controller
         //
     }
 
-    public function vote(Request $request)
-    {
-        $answer = Answer::where('id', $request->answer)->first();
-        if ($answer) {
-            if ($answer->vote($request->action)) {
-                return response()->json([
-                    'status' => 'success',
-                    'points' => $answer->getPointsAttribute(),
-                ], 201);
-            } else {
-                return response()->json([
-                    'error' => 'User not logged in.'
-                ], 401);
-            }
-        } else {
-            return response()->json([
-                'error' => 'Comment has been deleted.'
-            ], 401);
-        }
-
-
-    }
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Answer $answer){
+
+
+    public function show(Request $request, Answer $answer)
+    {
         $response = [
             'up' => null,
             'down' => null,
@@ -97,8 +81,8 @@ class VoteController extends Controller
             $response['down'] = $answer->downVotes()->count();
         }
         if($request->user()){
-            $voteFromUser = $answer->voteFromUser($request->user())->first();
-            $response['user_vote'] = $voteFromUser ? $voteFromUser->type : null;
+            $getVote = $answer->getVote($request->user())->first();
+            $response['user_vote'] = $getVote ? $getVote->type : null;
         }
 
         return response()->json([
@@ -140,31 +124,25 @@ class VoteController extends Controller
         //
     }
 
-    public function votes()
+    public function vote(Request $request)
     {
-        return $this->morphMany(Vote::class, 'votable');
-    }
-
-    public function checkIfVoted(User $user)
-    {
-        return $this->votes()->where('user_id', $user->id)->exists();
-    }
-
-    public function getVote(User $user)
-    {
-        return $this->votes()->where('user_id', $user->id)->first();
-    }
-
-    public function getPointsAttribute()
-    {
-        $points = 0;
-        foreach ($this->votes AS $vote) {
-            if($vote->status == 'upvote')
-                $points = $points + 1;
-            elseif($vote->status == 'downvote')
-                $points = $points - 1;
+        $answer = Answer::where('id',$request->comment)->first();
+        if($answer){
+            if($answer->vote($request->action)){
+                return response()->json([
+//                    'status' => 'success',
+                    'points' => $answer->getVotePoints(),
+                ], 201);
+            } else{
+                return response()->json([
+                    'error' => 'User not logged in.'
+                ], 401);
+            }
+        } else{
+            return response()->json([
+                'error' => 'Comment has been deleted.'
+            ], 401);
         }
-        return $points;
     }
 
 }

@@ -21,6 +21,7 @@
                         <button class="btn btn-danger float-right mr-2" value="submit" type="submit" id="submit">Delete
                         </button>
                         {!! Form::close() !!}
+
                     </div>
                 </div>
             </div>
@@ -32,12 +33,13 @@
                             Answer Question
                         </a>
 
-                        <a class="btn btn-success float-left ml-2"
-                           href="{{ route('answers.create', ['question_id'=> $question->id])}}">
+                        <a class="btn btn-info float-right"
+                           href="{{ route('votes.show', ['question_id'=> $question->id])}}">
                             See all votes
                         </a>
 
                     </div>
+
 
                     <div class="card-body">
                         @forelse($question->answers as $answer)

@@ -34,15 +34,17 @@ Route::patch('/questions/{question_id}/answer/{answer_id}', 'AnswerController@up
 Route::delete('/questions/{question_id}/answer/{answer_id}', 'AnswerController@destroy')->name('answers.destroy');
 
 
+//Route::get('/answer/{answer_id}/votes/vote', 'VoteController@vote')->name('votes.vote');
+//Route::get('/answer/{answer_id}/votes/{vote_id}', 'VoteController@show')->name('votes.show');
+//Route::get('/answer/{answer_id}/votes/{vote_id}/edit', 'VoteController@edit')->name('votes.edit');
+//Route::post('/answer/{answer_id}/votes/', 'VoteController@store')->name('votes.store');
+//Route::patch('/answer/{answer_id}/votes/{vote_id}', 'VoteController@update')->name('votes.update');
+//Route::delete('/answer/{answer_id}/votes/{vote_id}', 'VoteController@destroy')->name('votes.destroy');
+
+
 Route::get('/answer/{answer_id}/votes', 'VoteController@show')->name('votes.show'); //get votes
 Route::post('/answer/{answer_id}/votes', 'VoteController@create')->name('votes.create');
 Route::delete('/answer/{answer_id}/votes', 'VoteController@remove')->name('votes.remove');
-
-//Route::get('/answer/{answer_id}/votes', 'VoteController@show')->name('votes.show'); //get votes
-//Route::post('/answer/{answer_id}/votes', 'VoteController@vote')->name('votes.vote'); //get votes
-//
-//Route::post('/answer/{answer_id}/votes', 'VoteController@create')->name('votes.create');
-//Route::delete('/answer/{answer_id}/votes', 'VoteController@remove')->name('votes.remove');
 
 Route::resources([
     'questions' => 'QuestionController',
