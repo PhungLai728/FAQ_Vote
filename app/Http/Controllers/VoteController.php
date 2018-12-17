@@ -139,4 +139,32 @@ class VoteController extends Controller
     {
         //
     }
+
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'votable');
+    }
+
+    public function checkIfVoted(User $user)
+    {
+        return $this->votes()->where('user_id', $user->id)->exists();
+    }
+
+    public function getVote(User $user)
+    {
+        return $this->votes()->where('user_id', $user->id)->first();
+    }
+
+    public function getPointsAttribute()
+    {
+        $points = 0;
+        foreach ($this->votes AS $vote) {
+            if($vote->status == 'upvote')
+                $points = $points + 1;
+            elseif($vote->status == 'downvote')
+                $points = $points - 1;
+        }
+        return $points;
+    }
+
 }
