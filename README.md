@@ -31,6 +31,13 @@ This project is to create a website by Laravel Php framework with voting answers
 
 Have fun with the project!
 
+**Problem**
+
+- At this stage, the problem actually does not work as what I expected. The button in the Voting does not work perfectly. It just shows the buttons to vote, and when you click on the button, it will show you the vote data information. For example: whether you go up or down, you can vote or not (one person cannot vote twice), and vote user ID.
+
+- The Heroku is not working well. I met the same issue of "Database [heroku] not configured" as before, even I tried with all steps as Professor did to solve the problem. 
+
+
 ***References***
 https://github.com/ArneAnka/voting/
 
